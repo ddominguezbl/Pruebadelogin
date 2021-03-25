@@ -4,12 +4,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/logodefinitivo1"
+        android:label="Puzzle Rush"
+        android:roundIcon="@drawable/logodefinitivo1"
         android:supportsRtl="true"
         android:theme="@style/Theme.PruebaDeLogin">
-        <activity android:name=".InicioActivity"></activity>
+        <activity android:name=".RegistrarActivity"></activity>
+        <activity android:name=".InicioActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

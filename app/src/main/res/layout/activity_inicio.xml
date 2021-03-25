@@ -1,27 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutprincipal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".InicioActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/fondofinal" />
+
+    <ImageView
+        android:id="@+id/iVlogo"
+        android:layout_width="141dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logodefinitivo1" />
+
+    <ImageView
+        android:id="@+id/ivRegresar"
+        android:layout_width="46dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:adjustViewBounds="true"
+        android:background="#9C7B7B"
+        android:baseline="@dimen/cardview_compat_inset_shadow"
+        android:clickable="true"
+        android:scaleType="fitStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
 
     <TextView
         android:id="@+id/tvNombreUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="200dp"
+        android:autoText="true"
+        android:background="@color/purple_500"
+        android:fontFamily="@font/chango"
+        android:text="USUARIO"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btJugar"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/chango"
+        android:onClick="btJugarPulsado"
+        android:text="ENTRAR a JUGAR"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btRanking"
+        tools:fontFamily="@font/chango" />
+
+    <Button
+        android:id="@+id/btRanking"
+        android:layout_width="178dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/chango"
+        android:onClick="btRankingPulsado"
+        android:text="RANKING"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreUsuario"
+        tools:fontFamily="@font/chango" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
