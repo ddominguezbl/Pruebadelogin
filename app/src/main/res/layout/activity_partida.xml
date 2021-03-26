@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/imagenfondo">
+    android:background="@drawable/fondofinal">
 
     <ImageView
         android:id="@+id/imageView"
@@ -14,37 +14,38 @@
         android:layout_marginStart="177dp"
         android:layout_marginEnd="117dp"
         android:background="#F8FFFFFF"
-        android:tint="#48FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintHorizontal_bias="0.604"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/fondoaplicacion" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/btHelp"
         android:layout_width="59dp"
         android:layout_height="69dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
+        android:onClick="btConfigPulsado"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/iconfinder_Faqs_5349749" />
+        app:srcCompat="@drawable/iconfinder_faqs_5349749" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/btConfig"
         android:layout_width="59dp"
         android:layout_height="69dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
+        android:onClick="btHelpPulsado"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -60,12 +61,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/btConfig"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.194" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/numeroRonda"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="23dp"
@@ -99,15 +100,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.12" />
 
-    <FrameLayout
-        android:layout_width="340dp"
-        android:layout_height="445dp"
+    <ImageView
+        android:id="@+id/ImagenPuzzle"
+        android:layout_width="324dp"
+        android:layout_height="323dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.643">
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        tools:srcCompat="@drawable/image_2935360_960_720" />
 
-    </FrameLayout>
+    <Button
+        android:id="@+id/btEmpezar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EMPEZAR"
+        android:onClick="onclickEmpezar"
+        android:fontFamily="@font/birdygame"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ImagenPuzzle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

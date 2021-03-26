@@ -77,6 +77,9 @@ public class InicioActivity extends AppCompatActivity {
 
     public void btJugarPulsado(View v){
         Toast.makeText(getApplicationContext(), "Pulsado jugar", Toast.LENGTH_SHORT).show();
+        Intent intentJugar = new Intent(this, PartidaActivity.class);
+        startActivity(intentJugar);
+
     }
 
 
