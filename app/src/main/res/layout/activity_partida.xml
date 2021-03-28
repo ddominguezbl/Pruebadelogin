@@ -21,23 +21,6 @@
         app:srcCompat="@drawable/fondoaplicacion" />
 
     <ImageView
-        android:id="@+id/btHelp"
-        android:layout_width="59dp"
-        android:layout_height="69dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:onClick="btConfigPulsado"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/iconfinder_faqs_5349749" />
-
-    <ImageView
         android:id="@+id/btConfig"
         android:layout_width="59dp"
         android:layout_height="69dp"
@@ -103,12 +86,14 @@
     <ImageView
         android:id="@+id/ImagenPuzzle"
         android:layout_width="324dp"
-        android:layout_height="323dp"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        tools:srcCompat="@drawable/image_2935360_960_720" />
+        app:layout_constraintVertical_bias="0.184"
+        tools:srcCompat="@drawable/photo" />
 
     <Button
         android:id="@+id/btEmpezar"
@@ -121,5 +106,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ImagenPuzzle" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ConstraintImagenPuzzle"
+        android:layout_width="324dp"
+        android:layout_height="500dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ImagenPuzzle"
+        app:layout_constraintEnd_toEndOf="@+id/ImagenPuzzle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ImagenPuzzle"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintVertical_bias="1.0">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
