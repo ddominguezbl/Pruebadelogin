@@ -83,18 +83,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.12" />
 
-    <ImageView
-        android:id="@+id/ImagenPuzzle"
-        android:layout_width="324dp"
-        android:layout_height="500dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:layout_constraintVertical_bias="0.184"
-        tools:srcCompat="@drawable/photo" />
-
     <Button
         android:id="@+id/btEmpezar"
         android:layout_width="wrap_content"
@@ -104,20 +92,26 @@
         android:fontFamily="@font/birdygame"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ImagenPuzzle" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ConstraintImagenPuzzle"
+
+    <GridLayout
+        android:id="@+id/idGridImagen"
         android:layout_width="324dp"
         android:layout_height="500dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ImagenPuzzle"
-        app:layout_constraintEnd_toEndOf="@+id/ImagenPuzzle"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ImagenPuzzle"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colordavid"
+        app:layout_constraintBottom_toTopOf="@+id/btEmpezar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:layout_constraintVertical_bias="1.0">
+        tools:context=".GridXMLActivity" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
