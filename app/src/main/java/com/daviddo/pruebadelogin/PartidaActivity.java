@@ -66,6 +66,7 @@ public class PartidaActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
+
     }
 
     @Override
