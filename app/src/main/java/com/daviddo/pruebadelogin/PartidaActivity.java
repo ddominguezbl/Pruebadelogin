@@ -1,11 +1,13 @@
 package com.daviddo.pruebadelogin;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -38,6 +40,9 @@ public class PartidaActivity extends AppCompatActivity {
     int filadelaimagenpulsada;
     int columnadelaimagenpulsada;
     ImageView imagenpulsada;
+    Button button;
+
+
 
     ImageView[][] arrayImagenes = new ImageView[numfilas][numcolumnas];
 
@@ -49,6 +54,21 @@ public class PartidaActivity extends AppCompatActivity {
 
         btConfig = findViewById(R.id.btConfig);
         gridImagen = findViewById(R.id.idGridImagen);
+        button = (Button) findViewById(R.id.button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirbutton();
+            }
+        });
+
+    }
+
+    public void abrirbutton() {
+        Intent intent = new Intent(this, GameOver.class);
+        startActivity(intent);
+
 
     }
 
