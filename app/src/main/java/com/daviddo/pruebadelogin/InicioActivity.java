@@ -85,7 +85,10 @@ public class InicioActivity extends AppCompatActivity {
 
     public void btRankingPulsado(View v){
         Toast.makeText(getApplicationContext(), "Pulsado ranking", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Pulsado ranking ", Toast.LENGTH_SHORT).show();
     }
+
+
 
 
 }

@@ -5,18 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.*;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 
 public class MainActivity extends AppCompatActivity {
     EditText etUsuario;
     EditText etPassword;
     Button btEntrar;
     ImageView ivRegresar2;
+    ImageView iVlogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        iVlogo=(ImageView)findViewById(R.id.iVlogo);
+        YoYo.with(Techniques.Pulse).duration(3000).repeat(Animation.INFINITE).playOn(iVlogo);
 
         etUsuario = findViewById(R.id.etUsuario);
         etPassword = findViewById(R.id.etPassword);
