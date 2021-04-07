@@ -28,8 +28,8 @@ public class PartidaActivity extends AppCompatActivity {
     ArrayList<Trozo> listaTrozos;
     Bitmap imagenoriginal, imagenvacia;
     ConstraintLayout CLimagenPuzzle;
-    int numfilas = 4;
-    int numcolumnas = 4;
+    int numfilas = 5;
+    int numcolumnas = 5;
     GridLayout gridImagen;
     int anchocadapieza;
     int altocadapieza;
@@ -44,6 +44,7 @@ public class PartidaActivity extends AppCompatActivity {
 
 
 
+
     ImageView[][] arrayImagenes = new ImageView[numfilas][numcolumnas];
 
 
@@ -55,6 +56,11 @@ public class PartidaActivity extends AppCompatActivity {
         btConfig = findViewById(R.id.btConfig);
         gridImagen = findViewById(R.id.idGridImagen);
         button = (Button) findViewById(R.id.button);
+
+        Bundle datos = this.getIntent().getExtras();
+        numfilas = datos.getInt("numfilas");
+        numcolumnas = datos.getInt("numcolumnas");
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

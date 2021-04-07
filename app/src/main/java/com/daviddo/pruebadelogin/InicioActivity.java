@@ -7,14 +7,22 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.chip.Chip;
 
 public class InicioActivity extends AppCompatActivity {
 
     TextView tvNombreUsuario;
     ImageView ivRegresar;
+    Chip chipmodoFácil;
+    Chip chipModoNormal;
+    Chip chipModoDifícil;
+    int numfilas;
+    int numcolumnas;
 
 
     @Override
@@ -26,6 +34,41 @@ public class InicioActivity extends AppCompatActivity {
         tvNombreUsuario = findViewById(R.id.tvNombreUsuario);
         ivRegresar = (ImageView) findViewById((R.id.ivRegresar));
 
+        chipmodoFácil = (Chip)findViewById(R.id.modofácil);
+        chipModoNormal = (Chip)findViewById(R.id.modonormal);
+        chipModoDifícil = (Chip)findViewById(R.id.mododifícil);
+
+        chipmodoFácil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked == true){
+                    numcolumnas=3;
+                    numfilas=3;
+                    Toast.makeText(getApplicationContext(), "Modo FÁCIL seleccionado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        chipModoNormal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked == true) {
+                    numcolumnas=4;
+                    numfilas=4;
+                    Toast.makeText(getApplicationContext(), "Modo NORMAL seleccionado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        chipModoDifícil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked == true){
+                    numcolumnas=5;
+                    numfilas=5;
+                    Toast.makeText(getApplicationContext(), "Modo DIFÍCIL seleccionado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         Intent elintentquellegoaqui = getIntent();
 
@@ -76,9 +119,19 @@ public class InicioActivity extends AppCompatActivity {
     }
 
     public void btJugarPulsado(View v){
-        Toast.makeText(getApplicationContext(), "Pulsado jugar", Toast.LENGTH_SHORT).show();
-        Intent intentJugar = new Intent(this, PartidaActivity.class);
-        startActivity(intentJugar);
+        if ((chipmodoFácil.isChecked()==false) && (chipModoNormal.isChecked()==false) && (chipModoDifícil.isChecked()==false)){
+            Toast.makeText(getApplicationContext(), "Seleccione modo de juego", Toast.LENGTH_SHORT).show();
+        }
+        else{
+
+            Bundle datos = new Bundle();
+            datos.putInt("numfilas", numfilas);
+            datos.putInt("numcolumnas", numcolumnas);
+            Toast.makeText(getApplicationContext(), "Pulsado jugar", Toast.LENGTH_SHORT).show();
+            Intent intentJugar = new Intent(this, PartidaActivity.class);
+            intentJugar.putExtras(datos);
+            startActivity(intentJugar);
+        }
 
     }
 
