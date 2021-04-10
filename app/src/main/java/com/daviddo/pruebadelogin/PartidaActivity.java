@@ -117,6 +117,12 @@ public class PartidaActivity extends AppCompatActivity {
         columnaHueco = columnadelaimagenpulsada;
     }
 
+    public void onclickHelp(View view) {
+        Toast.makeText(getApplicationContext(), "Dirigiendo a HELP", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(PartidaActivity.this, HelpActivity.class);
+        startActivity(intent);
+    }
+
     public void onclickEmpezar(View view) {
         iniciarTodo();
     }

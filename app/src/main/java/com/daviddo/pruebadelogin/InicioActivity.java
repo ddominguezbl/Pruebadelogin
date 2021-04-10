@@ -43,8 +43,8 @@ public class InicioActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked == true){
-                    numcolumnas=3;
-                    numfilas=3;
+                    numcolumnas=2;
+                    numfilas=2;
                     Toast.makeText(getApplicationContext(), "Modo FÁCIL seleccionado", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -53,8 +53,8 @@ public class InicioActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true) {
-                    numcolumnas=4;
-                    numfilas=4;
+                    numcolumnas=3;
+                    numfilas=3;
                     Toast.makeText(getApplicationContext(), "Modo NORMAL seleccionado", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -63,8 +63,8 @@ public class InicioActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true){
-                    numcolumnas=5;
-                    numfilas=5;
+                    numcolumnas=4;
+                    numfilas=4;
                     Toast.makeText(getApplicationContext(), "Modo DIFÍCIL seleccionado", Toast.LENGTH_SHORT).show();
                 }
             }
