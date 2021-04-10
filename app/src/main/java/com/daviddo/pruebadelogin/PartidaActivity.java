@@ -41,7 +41,8 @@ public class PartidaActivity extends AppCompatActivity {
     int filadelaimagenpulsada;
     int columnadelaimagenpulsada;
     ImageView imagenpulsada;
-    Button botonGameOver, btEmpezar, btHelp;
+    Button botonGameOver, btEmpezar;
+    Button botonHelp;
     int ronda  =1;
     boolean haganado = true;
 
@@ -62,7 +63,7 @@ public class PartidaActivity extends AppCompatActivity {
         btConfig = findViewById(R.id.btConfig);
         gridImagen = findViewById(R.id.idGridImagen);
         botonGameOver = (Button) findViewById(R.id.button);
-        btHelp = (Button) findViewById(R.id.btHelp);
+        botonHelp = (Button) findViewById(R.id.button1);
 
         btEmpezar = (Button) findViewById(R.id.btEmpezar);
 
@@ -73,11 +74,10 @@ public class PartidaActivity extends AppCompatActivity {
             }
         });
 
-        btHelp.setOnClickListener(new View.OnClickListener() {
+        botonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                irAHelp();
+                abrirbutton2();
             }
         });
 
@@ -309,8 +309,8 @@ public class PartidaActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-    public void irAHelp() {
-        Intent intent = new Intent(this, HelpActivity.class);
+    public void abrirbutton2() {
+        Intent intent = new Intent(PartidaActivity.this, HelpActivity.class);
         startActivity(intent);
 
     }
