@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PruebaDeLogin">
         <activity android:name=".GameOver"></activity>
+        <activity android:name=".HelpActivity"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

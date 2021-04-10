@@ -310,8 +310,8 @@ public class PartidaActivity extends AppCompatActivity {
 
     }
     public void irAHelp() {
-        Intent intent = new Intent(this, HelpActivity.class);
-        startActivity(intent);
+        Intent intentHelp = new Intent(this, HelpActivity.class);
+        startActivity(intentHelp);
 
     }
 
