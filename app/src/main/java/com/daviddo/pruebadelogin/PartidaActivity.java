@@ -243,6 +243,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
 
+
     public void config(View view) {
         Toast.makeText(getApplicationContext(), "Pulsado configurar", Toast.LENGTH_SHORT).show();
     }
