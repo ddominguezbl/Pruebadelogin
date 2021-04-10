@@ -28,7 +28,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
-        android:onClick="btHelpPulsado"
+        android:onClick="btConfigPulsado"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -102,6 +102,7 @@
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="8dp"
         android:text="GameOver"
+        android:fontFamily="@font/birdygame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -119,20 +120,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        tools:context=".GridXMLActivity" />
+        tools:context=".GridXMLActivity" >
 
-    <ImageView
+    </GridLayout>
+
+    <Button
         android:id="@+id/btHelp"
-        android:layout_width="76dp"
-        android:layout_height="109dp"
-        android:onClick="onclickHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Help"
+        android:fontFamily="@font/birdygame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintHorizontal_bias="0.949"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/iconfinder_faqs_5349749" />
+        app:layout_constraintVertical_bias="0.023" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
