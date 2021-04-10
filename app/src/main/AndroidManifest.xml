@@ -11,8 +11,8 @@
         android:roundIcon="@drawable/logodefinitivo1"
         android:supportsRtl="true"
         android:theme="@style/Theme.PruebaDeLogin">
-        <activity android:name=".ImgAlmacenadas"></activity>
-        <activity android:name=".GameOver" />
+        <activity android:name=".GameOver"></activity>
+        <activity android:name=".HelpActivity"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         <activity android:name=".InicioActivity" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".PartidaActivity" />
 
         <meta-data

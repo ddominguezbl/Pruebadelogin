@@ -26,7 +26,8 @@
         android:layout_marginTop="38dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logodefinitivo1" />
+        app:srcCompat="@drawable/logodefinitivo1"
+        tools:context=".HelpActivity"/>
 
     <ImageView
         android:id="@+id/ivRegresar4"
@@ -38,6 +39,7 @@
         android:background="#9C7B7B"
         android:baseline="@dimen/cardview_compat_inset_shadow"
         android:clickable="true"
+
         android:scaleType="fitStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
