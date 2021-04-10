@@ -83,6 +83,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.12" />
 
+
     <Button
         android:id="@+id/btEmpezar"
         android:layout_width="wrap_content"
@@ -92,20 +93,25 @@
         android:text="EMPEZAR"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="8dp"
-        android:text="GameOver"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="12dp"
         android:fontFamily="@font/birdygame"
+        android:text="GameOver"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.855"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idGridImagen"
+        app:layout_constraintVertical_bias="1.0" />
 
     <GridLayout
         android:id="@+id/idGridImagen"
@@ -118,9 +124,11 @@
         android:background="@color/colordavid"
         app:layout_constraintBottom_toTopOf="@+id/btEmpezar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        tools:context=".GridXMLActivity" >
+        app:layout_constraintVertical_bias="1.0"
+        tools:context=".GridXMLActivity">
 
     </GridLayout>
 
