@@ -20,33 +20,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/fondoaplicacion" />
 
-    <ImageView
-        android:id="@+id/btConfig"
-        android:layout_width="59dp"
-        android:layout_height="69dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:onClick="btConfigPulsado"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/iconfinder_icons_settings_1564529" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:id="@+id/ProgressBarTimer"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="300dp"
+        android:layout_height="10dp"
+        android:max="100"
+        android:progress="50"
+        android:secondaryProgress="60"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btConfig"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.194" />
+        app:layout_constraintVertical_bias="0.174" />
 
     <EditText
         android:id="@+id/numeroRonda"
@@ -59,12 +47,12 @@
         android:text="1"
         android:textColor="#5900FF"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.677"
+        app:layout_constraintHorizontal_bias="0.627"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.785" />
+        app:layout_constraintVertical_bias="0.111" />
 
     <TextView
         android:id="@+id/textoRonda"
@@ -113,12 +101,12 @@
         app:layout_constraintTop_toBottomOf="@+id/idGridImagen"
         app:layout_constraintVertical_bias="1.0" />
 
+
     <GridLayout
         android:id="@+id/idGridImagen"
         android:layout_width="324dp"
         android:layout_height="500dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@color/colordavid"
@@ -126,24 +114,50 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:layout_constraintVertical_bias="1.0"
         tools:context=".GridXMLActivity">
 
     </GridLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_500"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.031"
+        app:srcCompat="@drawable/iconfinder_audio_video_game_35_2298400" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btHelp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Help"
-        android:fontFamily="@font/birdygame"
+        android:backgroundTint="@color/purple_500"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toEndOf="@+id/btPause"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.031"
+        app:srcCompat="@drawable/iconfinder_faqs_5349749" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btConfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:backgroundTint="@color/purple_500"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btPause"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.031"
+        app:srcCompat="@drawable/iconfinder_configuration_01_1976051" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

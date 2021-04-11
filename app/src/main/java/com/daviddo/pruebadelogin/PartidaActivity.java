@@ -1,21 +1,26 @@
 package com.daviddo.pruebadelogin;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.Button;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -41,7 +46,9 @@ public class PartidaActivity extends AppCompatActivity {
     int filadelaimagenpulsada;
     int columnadelaimagenpulsada;
     ImageView imagenpulsada;
-    Button botonGameOver, btEmpezar, btHelp;
+    Button botonGameOver, btEmpezar;
+    FloatingActionButton btHelp, btPause;
+    ProgressBar ProgressBarTimer;
     int ronda  =1;
     boolean haganado = true;
 
@@ -62,10 +69,17 @@ public class PartidaActivity extends AppCompatActivity {
         btConfig = findViewById(R.id.btConfig);
         gridImagen = findViewById(R.id.idGridImagen);
         botonGameOver = (Button) findViewById(R.id.button);
-        btHelp = (Button) findViewById(R.id.btHelp);
-
+        btHelp = (FloatingActionButton) findViewById(R.id.btHelp);
+        btPause = (FloatingActionButton) findViewById(R.id.btPause);
         btEmpezar = (Button) findViewById(R.id.btEmpezar);
+        ProgressBarTimer = findViewById(R.id.ProgressBarTimer);
 
+        btPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pausar();
+            }
+        });
         botonGameOver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +95,22 @@ public class PartidaActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void pausar() {
+        final Dialog dialog=new Dialog(this);
+        dialog.setContentView(R.layout.activity_pause);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        Button btContinuar = dialog.findViewById(R.id.btnContinuar);
+
+        btContinuar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Pausando", Toast.LENGTH_SHORT).show();
+                dialog.cancel();
+            }
+        });dialog.show();
     }
 
 
@@ -380,8 +410,43 @@ public class PartidaActivity extends AppCompatActivity {
     public void onclickEmpezar(View view) {
         if(haganado== true){
             iniciarTodo();
+            ProgressBarTimer.setProgress(0);
+            ProgressBarTimer.setSecondaryProgress(5);
+            CountDownTimer cuentaAtras = new CountDownTimer(20000,1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    System.out.println("seconds remaining: " + millisUntilFinished / 1000);
+                    int progresoactual = ProgressBarTimer.getProgress() + 5;
+                    ProgressBarTimer.setProgress(progresoactual);
+                    if (progresoactual >= ProgressBarTimer.getMax()){
+                        progresoactual = 0;
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                    System.out.println("FIN");
+                    sinTiempo();
+                }
+            }.start();
         }
 
+    }
+
+    private void sinTiempo() {
+        final Dialog dialog=new Dialog(this);
+        dialog.setContentView(R.layout.activity_fin_tiempo);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        Button btContinuar = dialog.findViewById(R.id.btnContinuar);
+
+        btContinuar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "RRRRRRRRRRRRRRRR", Toast.LENGTH_SHORT).show();
+                dialog.cancel();
+            }
+        });dialog.show();
     }
 
 
