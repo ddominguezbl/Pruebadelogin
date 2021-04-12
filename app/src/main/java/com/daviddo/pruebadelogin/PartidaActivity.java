@@ -49,8 +49,9 @@ public class PartidaActivity extends AppCompatActivity {
     Button botonGameOver, btEmpezar;
     FloatingActionButton btHelp, btPause;
     ProgressBar ProgressBarTimer;
-    int ronda  =1;
-    boolean haganado = true;
+    int ronda;
+    boolean haganado;
+    TextView numeroronda;
 
 
 
@@ -73,6 +74,10 @@ public class PartidaActivity extends AppCompatActivity {
         btPause = (FloatingActionButton) findViewById(R.id.btPause);
         btEmpezar = (Button) findViewById(R.id.btEmpezar);
         ProgressBarTimer = findViewById(R.id.ProgressBarTimer);
+        numeroronda = findViewById(R.id.numeroRonda);
+
+        haganado = true; // para que inicialmente se pueda usar el boton de empezar
+        ronda = 1;
 
         btPause.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +112,6 @@ public class PartidaActivity extends AppCompatActivity {
         btContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Pausando", Toast.LENGTH_SHORT).show();
                 dialog.cancel();
             }
         });dialog.show();
@@ -115,10 +119,10 @@ public class PartidaActivity extends AppCompatActivity {
 
 
     private void iniciarTodo() {
-        haganado = false;
-        TextView numeroronda = findViewById(R.id.numeroRonda);
+        haganado = false;// tras iniciar se impide asi usar el borton empezar nuevamente
         numeroronda.setText(ronda+"");
         arrayImagenes = new ImageView[numfilas][numcolumnas];
+        gridImagen.removeAllViews();
         gridImagen.setColumnCount(numcolumnas);
         gridImagen.setRowCount(numfilas);
         gridImagen.setOrientation(GridLayout.HORIZONTAL);
@@ -257,9 +261,6 @@ public class PartidaActivity extends AppCompatActivity {
 
     public void imagenpulsada(View view) {
 
-
-
-
         imagenpulsada = (ImageView) view;
         Posiciones posicionquetenia  = (Posiciones) imagenpulsada.getTag();
         filadelaimagenpulsada = posicionquetenia.xActual;
@@ -286,7 +287,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     public void moverImagen() {
-        logDePosiciones();
+        //logDePosiciones();
 
         Posiciones posicionesDelHueco     = (Posiciones) arrayImagenes[filaHueco][columnaHueco].getTag();
         Posiciones posicionesDeLaPulsada  = (Posiciones) arrayImagenes[filadelaimagenpulsada][columnadelaimagenpulsada].getTag();
@@ -329,7 +330,7 @@ public class PartidaActivity extends AppCompatActivity {
             nuevoJuego();
         }
 
-        logDePosiciones();
+        //logDePosiciones();
     }
 
     //==============================================================================================
@@ -348,26 +349,19 @@ public class PartidaActivity extends AppCompatActivity {
 
 
     public void nuevoJuego() {
-//        haganado = true;
-//        for (int f = 0; f < numfilas; f++) {
-//
-//            for (int c = 0; c < numcolumnas; c++) {
-//
-//                ImageView imagen =   arrayImagenes[f][c];
-//                imagen.setOnClickListener(null);
-//                imagen = null;
-//
-//
-//            }
-//        }
-//        listaTrozos.clear();
-//
-//        ronda ++;
-//
-//         numfilas ++;
-//         numcolumnas ++;
+        haganado = true;
+        for (int f = 0; f < numfilas; f++) {
+            for (int c = 0; c < numcolumnas; c++) {
+                ImageView imagen = arrayImagenes[f][c];
+                imagen.setOnClickListener(null);
+                imagen = null;
+            }
+        }
+        listaTrozos.clear();
 
-
+        ronda++;
+        numfilas++;
+        numcolumnas++;
     }
 
     public boolean estaAcabado(){
@@ -386,7 +380,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
 
-    public void logDePosiciones(){
+    /*public void logDePosiciones(){
 
 
         String s = "";
@@ -406,7 +400,7 @@ public class PartidaActivity extends AppCompatActivity {
         }
 
     }
-
+*/
     public void onclickEmpezar(View view) {
         if(haganado== true){
             iniciarTodo();
@@ -443,7 +437,6 @@ public class PartidaActivity extends AppCompatActivity {
         btContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "RRRRRRRRRRRRRRRR", Toast.LENGTH_SHORT).show();
                 dialog.cancel();
             }
         });dialog.show();
