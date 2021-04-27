@@ -7,8 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -24,6 +28,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -52,6 +57,15 @@ public class PartidaActivity extends AppCompatActivity {
     int ronda;
     boolean haganado;
     TextView numeroronda;
+    private static final String carpetaprincipal = "misImagenesApp/";
+    private static final String carpetaimagen = "imagenes";
+    private static final String directorioimagen = carpetaprincipal + carpetaimagen;
+    private String path;
+    File archivoimagen;
+    Bitmap bitmapimagen;
+    private static final int codigoseleccion = 10;
+    private static final int codigofoto = 20;
+    ImageView imgFoto;
 
 
 
@@ -67,6 +81,7 @@ public class PartidaActivity extends AppCompatActivity {
         numfilas = datos.getInt("numfilas");
         numcolumnas = datos.getInt("numcolumnas");
 
+        imgFoto = findViewById(R.id.imagenseleccionada);
         btConfig = findViewById(R.id.btConfig);
         gridImagen = findViewById(R.id.idGridImagen);
         botonGameOver = (Button) findViewById(R.id.button);
@@ -381,15 +396,12 @@ public class PartidaActivity extends AppCompatActivity {
 
 
     /*public void logDePosiciones(){
-
-
         String s = "";
         for (int f = 0; f < numfilas; f++) {
             for (int c = 0; c < numcolumnas; c++) {
                 ImageView imagen = arrayImagenes[f][c];
                 Posiciones pos  = (Posiciones) imagen.getTag();
                 s+=" \n=================================> FILA  " + f + " COLUMNA" + c;
-
                 s+=" \n=============> X INICIAL " + pos.xInicial;
                 s+=" \n=============> Y INICIAL " + pos.yInicial;
                 s+=" \n=============> X ACTUAL  " + pos.xActual;
@@ -398,10 +410,44 @@ public class PartidaActivity extends AppCompatActivity {
                 Log.e("________________ DAVID", s);
             }
         }
-
     }
+
 */
+
+
     public void onclickEmpezar(View view) {
+        final Dialog dialog=new Dialog(this);
+        dialog.setContentView(R.layout.activity_cam_galeria);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        Button btGaleria = dialog.findViewById(R.id.btGaleria);
+        Button btCam = dialog.findViewById(R.id.btCamara);
+
+
+
+        btGaleria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/");
+                startActivityForResult(intent.createChooser(intent, "Seleccione"),10);
+                Toast.makeText(getApplicationContext(), "Pulsado Galeria", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btCam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                abrircamara();
+                Toast.makeText(getApplicationContext(), "Pulsado Camara", Toast.LENGTH_SHORT).show();
+        
+
+            }
+        });
+        dialog.show();
+
         if(haganado== true){
             iniciarTodo();
             ProgressBarTimer.setProgress(0);
@@ -425,6 +471,48 @@ public class PartidaActivity extends AppCompatActivity {
             }.start();
         }
 
+    }
+
+    private void abrircamara() {
+        File miarchivo = new File(Environment.getExternalStorageDirectory(), directorioimagen);
+        boolean existe = miarchivo.exists();
+        if(existe==false){
+            existe = miarchivo.mkdirs();
+        }
+        if(existe==true){
+            Long consecutivo = System.currentTimeMillis()/1000;
+            String nombre=consecutivo.toString()+".jpg";
+
+            path = Environment.getExternalStorageDirectory()+File.separator+directorioimagen+File.separator+nombre;
+
+            archivoimagen = new File(path);
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(archivoimagen));
+            startActivityForResult(intent,codigofoto);
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case codigoseleccion:
+                Uri miPath = data.getData();
+                imgFoto.setImageURI(miPath);
+                break;
+            case codigofoto:
+                MediaScannerConnection.scanFile(getApplicationContext(), new String[] {path}, null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri){
+                        Log.i("Path", ""+path);
+                    }
+            });
+                bitmapimagen = BitmapFactory.decodeFile(path);
+                imgFoto.setImageBitmap(bitmapimagen);
+                break;
+        }
     }
 
     private void sinTiempo() {
