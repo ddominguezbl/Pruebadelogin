@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView ivRegresar2;
     ImageView iVlogo;
     Button btRegistrar;
-    Animation animation;
 
 
     @Override
@@ -41,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         ivRegresar2 = findViewById(R.id.ivRegresar2);
         btRegistrar = findViewById(R.id.btRegistrar);
 
+        YoYo.with(Techniques.Bounce).duration(3000).repeat(Animation.INFINITE).playOn(iVlogo);
+
         ivRegresar2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
         iVlogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animation= AnimationUtils.loadAnimation( MainActivity.this,R.anim.slide_up);
-                iVlogo.startAnimation(animation);
+
             }
         });
 
