@@ -3,9 +3,13 @@ package com.daviddo.pruebadelogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -18,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     Button btEntrar;
     ImageView ivRegresar2;
     ImageView iVlogo;
+    Button btRegistrar;
+    Animation animation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,22 +32,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         iVlogo=(ImageView)findViewById(R.id.iVlogo);
-        YoYo.with(Techniques.Pulse).duration(3000).repeat(Animation.INFINITE).playOn(iVlogo);
+
+        /*YoYo.with(Techniques.Pulse).duration(3000).repeat(Animation.INFINITE).playOn(iVlogo);*/
 
         etUsuario = findViewById(R.id.etUsuario);
         etPassword = findViewById(R.id.etPassword);
         btEntrar = findViewById(R.id.btJugar);
         ivRegresar2 = findViewById(R.id.ivRegresar2);
+        btRegistrar = findViewById(R.id.btRegistrar);
 
         ivRegresar2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-            //    System.exit(0);
-            //     android.os.Process.killProcess(android.os.Process.myPid());
             }
         });
+
+        iVlogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animation= AnimationUtils.loadAnimation( MainActivity.this,R.anim.slide_up);
+                iVlogo.startAnimation(animation);
+            }
+        });
+
     }
+
 
     public void btEntrarPulsado(View v) {
         String nombreusuario = etUsuario.getText().toString();
@@ -64,13 +81,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "ACCESO DENEGADO USUARIO NO REGISTRADO: " + nombreusuario, Toast.LENGTH_LONG).show();
         }
 
-
     }
 
     public void btRegistrarPulsado(View v) {
-
         Intent miintent = new Intent(MainActivity.this, RegistrarActivity.class);
         startActivity(miintent);
 
     }
+
 }

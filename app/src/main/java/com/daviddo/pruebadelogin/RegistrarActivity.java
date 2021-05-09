@@ -3,6 +3,7 @@ package com.daviddo.pruebadelogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -23,7 +24,6 @@ public class RegistrarActivity extends AppCompatActivity {
         ivRegresar3 = findViewById(R.id.ivRegresar3);
 
 
-
         ivRegresar3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,6 +36,7 @@ public class RegistrarActivity extends AppCompatActivity {
         String nombreusuario = etUsuario.getText().toString();
         String passwordusuario  = etPassword.getText().toString();
         GestorSQLite migestor = new  GestorSQLite(this,"RUSH_bbdd", null, 3);
+
        if( migestor.verSiYaExisteUsuarioConUnNombre(nombreusuario)){
            Toast.makeText(this," USUARIO YA REGISTRADO: " + nombreusuario, Toast.LENGTH_LONG).show();
        }else{

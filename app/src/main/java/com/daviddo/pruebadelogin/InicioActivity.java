@@ -3,10 +3,12 @@ package com.daviddo.pruebadelogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +39,8 @@ public class InicioActivity extends AppCompatActivity {
         chipmodoFácil = (Chip)findViewById(R.id.modofácil);
         chipModoNormal = (Chip)findViewById(R.id.modonormal);
         chipModoDifícil = (Chip)findViewById(R.id.mododifícil);
+
+        final MediaPlayer ClickOn = MediaPlayer.create(this, R.raw.sonido5);
 
         chipmodoFácil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -94,14 +98,15 @@ public class InicioActivity extends AppCompatActivity {
     // onOptionsItemSelected se invoca cuando se selecciona alguna de las opciones del menu // recibe como parametro un objeto MenuItem (el pulsado)
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
+
         // con el objeto MenuItem y su metodo getItemId() podemos saber el id del view del menu pulsa
         int id = item.getItemId();
         switch (id) {
+
             case (R.id.opcion_jugar):
                 btJugarPulsado(null);
-
-
                 break;
+
             case (R.id.opcion_configuracion):
 
                 Toast.makeText(getApplicationContext(), "Pulsado configurar", Toast.LENGTH_SHORT).show();
@@ -114,11 +119,16 @@ public class InicioActivity extends AppCompatActivity {
 
                 finish();
                 break;
+
+
+
         }
         return super.onOptionsItemSelected(item);
+
     }
 
     public void btJugarPulsado(View v){
+
         if ((chipmodoFácil.isChecked()==false) && (chipModoNormal.isChecked()==false) && (chipModoDifícil.isChecked()==false)){
             Toast.makeText(getApplicationContext(), "Seleccione modo de juego", Toast.LENGTH_SHORT).show();
         }
@@ -133,12 +143,16 @@ public class InicioActivity extends AppCompatActivity {
             startActivity(intentJugar);
         }
 
+
+
     }
 
 
     public void btRankingPulsado(View v){
+
         Toast.makeText(getApplicationContext(), "Pulsado ranking", Toast.LENGTH_SHORT).show();
         Toast.makeText(getApplicationContext(), "Pulsado ranking ", Toast.LENGTH_SHORT).show();
+
     }
 
 

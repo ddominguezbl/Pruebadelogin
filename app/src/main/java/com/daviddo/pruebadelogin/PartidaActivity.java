@@ -1,17 +1,23 @@
 package com.daviddo.pruebadelogin;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.widget.GridLayout;
@@ -23,6 +29,10 @@ import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,11 +62,9 @@ public class PartidaActivity extends AppCompatActivity {
     int ronda;
     boolean haganado;
     TextView numeroronda;
-
-
+    Animation animation;
 
     ImageView[][] arrayImagenes;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,7 @@ public class PartidaActivity extends AppCompatActivity {
         numfilas = datos.getInt("numfilas");
         numcolumnas = datos.getInt("numcolumnas");
 
+
         btConfig = findViewById(R.id.btConfig);
         gridImagen = findViewById(R.id.idGridImagen);
         botonGameOver = (Button) findViewById(R.id.button);
@@ -75,6 +84,7 @@ public class PartidaActivity extends AppCompatActivity {
         btEmpezar = (Button) findViewById(R.id.btEmpezar);
         ProgressBarTimer = findViewById(R.id.ProgressBarTimer);
         numeroronda = findViewById(R.id.numeroRonda);
+
 
         haganado = true; // para que inicialmente se pueda usar el boton de empezar
         ronda = 1;
@@ -85,12 +95,15 @@ public class PartidaActivity extends AppCompatActivity {
                 pausar();
             }
         });
+
+
         botonGameOver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 abrirbutton();
             }
         });
+
 
         btHelp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +114,8 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     private void pausar() {
         final Dialog dialog=new Dialog(this);
@@ -136,22 +151,19 @@ public class PartidaActivity extends AppCompatActivity {
         // imagenoriginal = Bitmap.createScaledBitmap(imagenoriginal,anchogrid, altogrid, false);
         imagenvacia = BitmapFactory.decodeResource(getResources(), R.drawable.image_2935360_960_720);
 
-
         // dividir la imagebn
         trocearImagen(imagenoriginal);
-
         desordenar();
-
         pintarImagen();
 
     }
-
 
 
     private void trocearImagen(Bitmap imageninicial) {
         listaTrozos = new ArrayList<>();
         anchocadapieza = imageninicial.getWidth() / numcolumnas;
         altocadapieza = imageninicial.getHeight() / numfilas;
+
 
         int yCoord = 0;
         for (int f = 0; f < numfilas; f++) {
@@ -177,11 +189,10 @@ public class PartidaActivity extends AppCompatActivity {
                         imagenpulsada(v);
                     }
                 });
-
                 listaTrozos.add(imagen);
-
                 xCoord = xCoord + anchocadapieza;
             }
+
             yCoord += altocadapieza;
         }
 
@@ -210,6 +221,7 @@ public class PartidaActivity extends AppCompatActivity {
 
     }
 
+
     private void desordenar() {
 
         // desordenar el arraylist
@@ -225,7 +237,6 @@ public class PartidaActivity extends AppCompatActivity {
 //                posicionquetenia.yActual  = c;
 //            }
 //        }
-
     }
 
     private void pintarImagen() {
@@ -244,15 +255,10 @@ public class PartidaActivity extends AppCompatActivity {
                 if (posicionquetenia.eshueco){
                     filaHueco = f;
                     columnaHueco = c;
-
-
                 }
 
                 arrayImagenes[f][c] = imagen;
                 gridImagen.addView(imagen);
-
-
-
                 cont++;
             }
         }
@@ -261,29 +267,41 @@ public class PartidaActivity extends AppCompatActivity {
 
     public void imagenpulsada(View view) {
 
+        final MediaPlayer ClickOn = MediaPlayer.create(this, R.raw.sonido5);
+
         imagenpulsada = (ImageView) view;
         Posiciones posicionquetenia  = (Posiciones) imagenpulsada.getTag();
         filadelaimagenpulsada = posicionquetenia.xActual;
         columnadelaimagenpulsada = posicionquetenia.yActual;
 
-        //     imagenpulsada.setVisibility(View.INVISIBLE);
+        //imagenpulsada.setVisibility(View.INVISIBLE);
 
         // mirrar si ARRIBA hay hueco
         if (filadelaimagenpulsada - 1 == filaHueco && columnadelaimagenpulsada == columnaHueco) {
             moverImagen();
-        }
+            animation= AnimationUtils.loadAnimation( PartidaActivity.this,R.anim.bounce);
+            ClickOn.start();
+
+       }
+
         // mirrar si ABAJO hay hueco
         if (filadelaimagenpulsada + 1 == filaHueco && columnadelaimagenpulsada == columnaHueco) {
             moverImagen();
+            ClickOn.start();
         }
+
         // mirrar si DERECHA hay hueco
         if (filadelaimagenpulsada == filaHueco && columnadelaimagenpulsada + 1 == columnaHueco) {
             moverImagen();
+            ClickOn.start();
         }
+
         // mirrar si IZQUIERDA hay hueco
         if (filadelaimagenpulsada == filaHueco && columnadelaimagenpulsada - 1 == columnaHueco) {
             moverImagen();
+            ClickOn.start();
         }
+
     }
 
     public void moverImagen() {
@@ -328,6 +346,7 @@ public class PartidaActivity extends AppCompatActivity {
         if (estaAcabado()){
             Toast.makeText(this, " ENHORABUENA!!!!  HAS GANADO !!!" , Toast.LENGTH_LONG).show();
             nuevoJuego();
+
         }
 
         //logDePosiciones();
@@ -433,6 +452,8 @@ public class PartidaActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         Button btContinuar = dialog.findViewById(R.id.btnContinuar);
+
+
 
         btContinuar.setOnClickListener(new View.OnClickListener() {
             @Override

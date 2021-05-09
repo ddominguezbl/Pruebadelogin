@@ -22,11 +22,8 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-
         textHelp = (TextView)findViewById(R.id.textHelp);
         Regresar = (ImageView)findViewById(R.id.ivRegresar4);
-
-
 
         YoYo.with(Techniques.Flash).duration(3000).repeat(Animation.INFINITE).playOn(textHelp);
 
