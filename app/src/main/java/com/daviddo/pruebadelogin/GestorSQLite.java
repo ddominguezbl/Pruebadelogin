@@ -2,11 +2,17 @@ package com.daviddo.pruebadelogin;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.provider.CalendarContract;
+import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class GestorSQLite extends SQLiteOpenHelper {
     // Objeto de la bbdd que se usa en todos los metodos de esta clase
@@ -25,8 +31,6 @@ public class GestorSQLite extends SQLiteOpenHelper {
         nuevoRegistro.put("password", j.getPassword());
         objetoBBDD.insert("usuarios", null, nuevoRegistro);
     }
-
-
 
     public boolean verSiYaExisteUsuarioConUnNombre(String nombrebuscado) {
         // Ejemplo con cursor SIN parametros;
@@ -94,7 +98,9 @@ public class GestorSQLite extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         String sql = "CREATE TABLE usuarios (rowid INTEGER , nombre TEXT, password TEXT)";
         db.execSQL(sql);
-        sql = "CREATE TABLE ranking (rowid INTEGER, nombre TEXT, puntuacion TEXT)";
+        ////////////////////////////////////////////
+        ///////////////////////////////////////////
+        sql = "CREATE TABLE records (rowid INTEGER, ronda INTEGER, nombre TEXT, puntuacion TEXT)";
         db.execSQL(sql);
     }
     //OnUpdate()  se ejecuta cuando se adviete que existe una nueva version de la base de datos  
@@ -104,6 +110,53 @@ public class GestorSQLite extends SQLiteOpenHelper {
     }
 
 
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    public HashMap<Integer, RondaRecord> leerTodosLosRecords() {
+        // creo un arraylist para rellenarlo
+        HashMap<Integer, RondaRecord> listarecords = new HashMap<>();
+        // Ejemplo con cursor SIN parametros;
+        String sql = "SELECT * FROM records";
+        Cursor c = objetoBBDD.rawQuery(sql, null);
+        // Se mueve al primer regiustro y se entra en el if si hay al menos un registro en el cursor
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no hay más registros
+            // Cada campo se identifica por su ordinal, y se debe recuperar con el metodo adecuado
+            // a su tipo (getString(), getInt(), etc)
+            do {
+                int ronda = c.getInt(c.getColumnIndex("ronda"));  // se puede acceder al campo por su nombre
+                String nombre = c.getString(c.getColumnIndex("nombre"));  // se puede acceder al campo por su nombre
+                int puntuacion = c.getInt(c.getColumnIndex("puntuacion"));  // se puede acceder al campo por su nombre
+                // hacer con los datos leidos lo que haga falta
+                RondaRecord r  = new RondaRecord(ronda,nombre,puntuacion);
+                listarecords.put(ronda, r);
+            } while (c.moveToNext());                    // dará false cuando al moverse al siguiente registro se salga del cursor
+        }
+        return listarecords;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    public void actualizarNuevoRecord(int ronda,int contadorSegundos,String nombreusuario){
+        ContentValues nuevoRegistro = new ContentValues();
+        nuevoRegistro.put("ronda",ronda);
+        nuevoRegistro.put("nombre", nombreusuario);
+        nuevoRegistro.put("puntuacion", contadorSegundos);
+        objetoBBDD.update("records",  nuevoRegistro, "ronda = "+ronda, null);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    public void insertarNuevoRecord(int ronda,int contadorSegundos,String nombreusuario){
+        ContentValues nuevoRegistro = new ContentValues();
+        nuevoRegistro.put("ronda",ronda);
+        nuevoRegistro.put("nombre", nombreusuario);
+        nuevoRegistro.put("puntuacion", contadorSegundos);
+        objetoBBDD.insert("records", null, nuevoRegistro);
+    }
 
 
 

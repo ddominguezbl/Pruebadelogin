@@ -27,8 +27,8 @@
         android:layout_width="300dp"
         android:layout_height="10dp"
         android:max="100"
-        android:progress="50"
-        android:secondaryProgress="60"
+        android:progress="0"
+        android:secondaryProgress="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -174,4 +174,14 @@
         app:srcCompat="@drawable/iconfinder_configuration_01_1976051" />
 
 
+    <TextView
+        android:id="@+id/tvReloj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="0"
+        android:textColor="@color/ic_launcher_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btPause" />
 </androidx.constraintlayout.widget.ConstraintLayout>

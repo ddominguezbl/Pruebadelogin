@@ -13,7 +13,7 @@
         android:layout_height="738dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
@@ -24,7 +24,7 @@
         android:layout_width="318dp"
         android:layout_height="54dp"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="36dp"
+        android:layout_marginTop="64dp"
         android:background="#F44336"
         android:fontFamily="@font/chango"
         android:padding="10dp"
@@ -32,68 +32,44 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="220dp"
         android:layout_height="187dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GameOver"
         app:srcCompat="@drawable/descarga__3_removebg_preview" />
 
     <Button
         android:id="@+id/btVolverAJugar"
         android:layout_width="258dp"
         android:layout_height="71dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/chango"
         android:text="Volver A Jugar"
-        app:layout_constraintBottom_toTopOf="@+id/btPuntacion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btPuntacion"
-        android:layout_width="266dp"
-        android:layout_height="69dp"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/chango"
-        android:text="Puntación"
-        app:layout_constraintBottom_toTopOf="@+id/btRanking"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.524"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btRanking"
-        android:layout_width="272dp"
-        android:layout_height="82dp"
-        android:layout_marginBottom="32dp"
-        android:fontFamily="@font/chango"
-        android:text="Ranking TOP 10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.539"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="251dp"
         android:layout_height="57dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/chango"
         android:text="Inicio"
-        app:layout_constraintBottom_toTopOf="@+id/btVolverAJugar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

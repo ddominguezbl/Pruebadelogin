@@ -9,9 +9,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,8 +32,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class PartidaActivity extends AppCompatActivity {
 
@@ -53,10 +59,20 @@ public class PartidaActivity extends AppCompatActivity {
     ImageView imagenpulsada;
     Button botonGameOver, btEmpezar;
     FloatingActionButton btHelp, btPause;
-    ProgressBar ProgressBarTimer;
+    ProgressBar progressBarTimer;
     int ronda;
     boolean haganado;
     TextView numeroronda;
+    CountDownTimer cuentaAtras;
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    TextView tvReloj;
+    HiloReloj hiloreloj;
+    int contadorSegundos;
+    HashMap<Integer, RondaRecord> listarecords;
+
     private static final String carpetaprincipal = "misImagenesApp/";
     private static final String carpetaimagen = "imagenes";
     private static final String directorioimagen = carpetaprincipal + carpetaimagen;
@@ -66,6 +82,7 @@ public class PartidaActivity extends AppCompatActivity {
     private static final int codigoseleccion = 10;
     private static final int codigofoto = 20;
     ImageView imgFoto;
+    String nombreusuario;
 
 
 
@@ -80,6 +97,7 @@ public class PartidaActivity extends AppCompatActivity {
         Bundle datos = this.getIntent().getExtras();
         numfilas = datos.getInt("numfilas");
         numcolumnas = datos.getInt("numcolumnas");
+        nombreusuario = getIntent().getStringExtra("etiquetanombreusuario");
 
         imgFoto = findViewById(R.id.imagenseleccionada);
         btConfig = findViewById(R.id.btConfig);
@@ -88,8 +106,16 @@ public class PartidaActivity extends AppCompatActivity {
         btHelp = (FloatingActionButton) findViewById(R.id.btHelp);
         btPause = (FloatingActionButton) findViewById(R.id.btPause);
         btEmpezar = (Button) findViewById(R.id.btEmpezar);
-        ProgressBarTimer = findViewById(R.id.ProgressBarTimer);
+        progressBarTimer = findViewById(R.id.ProgressBarTimer);
         numeroronda = findViewById(R.id.numeroRonda);
+        /////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////
+        tvReloj = findViewById(R.id.tvReloj);
+
+        // leemos todos los records
+        GestorSQLite  migestor = new GestorSQLite(this, "RUSH_bbdd", null, 3);
+        listarecords = migestor.leerTodosLosRecords();
 
         haganado = true; // para que inicialmente se pueda usar el boton de empezar
         ronda = 1;
@@ -134,6 +160,12 @@ public class PartidaActivity extends AppCompatActivity {
 
 
     private void iniciarTodo() {
+
+        anchogrid = imgFoto.getWidth();
+        altogrid = imgFoto.getHeight();
+
+
+
         haganado = false;// tras iniciar se impide asi usar el borton empezar nuevamente
         numeroronda.setText(ronda+"");
         arrayImagenes = new ImageView[numfilas][numcolumnas];
@@ -147,8 +179,10 @@ public class PartidaActivity extends AppCompatActivity {
         //  altogrid = gridImagen.getHeight();
 
         // elegir la imagen
-        imagenoriginal = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
-        // imagenoriginal = Bitmap.createScaledBitmap(imagenoriginal,anchogrid, altogrid, false);
+       //  imagenoriginal = BitmapFactory.decodeResource(getResources(), R.drawable.photo);
+
+
+        imagenoriginal = Bitmap.createScaledBitmap(imagenoriginal,anchogrid, altogrid, false);
         imagenvacia = BitmapFactory.decodeResource(getResources(), R.drawable.image_2935360_960_720);
 
 
@@ -158,6 +192,9 @@ public class PartidaActivity extends AppCompatActivity {
         desordenar();
 
         pintarImagen();
+
+        hiloreloj = new HiloReloj();
+        hiloreloj.execute();
 
     }
 
@@ -199,8 +236,9 @@ public class PartidaActivity extends AppCompatActivity {
             }
             yCoord += altocadapieza;
         }
-
         Bitmap bitmapvacio = Bitmap.createBitmap(imagenvacia, 0, 0, anchocadapieza, altocadapieza);
+
+    //    Bitmap bitmapvacio =imagenvacia;
         ImageView imagen = new ImageView(this);
         imagen.setId(View.generateViewId());
         LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -341,17 +379,45 @@ public class PartidaActivity extends AppCompatActivity {
         columnaHueco = columnadelaimagenpulsada;
 
         if (estaAcabado()){
-            Toast.makeText(this, " ENHORABUENA!!!!  HAS GANADO !!!" , Toast.LENGTH_LONG).show();
+            cuentaAtras.cancel();
+            Toast.makeText(this, " ENHORABUENA!!!!  ACABASTE !!!" , Toast.LENGTH_LONG).show();
+
+            // vemos si ha llegado a un nuevo record
+            // primero miramos cual es el record del nivel actual
+            /////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////
+
+            if(listarecords.containsKey(ronda)){
+                RondaRecord rondarecord = listarecords.get(ronda);
+                int recordactual = rondarecord.getPuntuacion();
+                if ( contadorSegundos < recordactual ){
+                    Toast.makeText(this, " ENHORABUENA, GANASTE CON NUEVO RECORD !!!! \nSolo " +contadorSegundos+" segundos !!" , Toast.LENGTH_LONG).show();
+                    GestorSQLite  migestor = new GestorSQLite(this, "RUSH_bbdd", null, 3);
+                    migestor.actualizarNuevoRecord(ronda,contadorSegundos,nombreusuario);
+                    onMeterCita();
+                }else{
+                    Toast.makeText(this, " HAS GANADO !!! .. pero sin nuevo record" , Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(this, " ENHORABUENA, GANASTE CON NUEVO RECORD !!!!" , Toast.LENGTH_LONG).show();
+                GestorSQLite  migestor = new GestorSQLite(this, "RUSH_bbdd", null, 3);
+                migestor.insertarNuevoRecord(ronda,contadorSegundos,nombreusuario);
+                onMeterCita();
+            }
+
+
             nuevoJuego();
+
         }
 
-        //logDePosiciones();
     }
 
     //==============================================================================================
 
     public void abrirbutton() {
         Intent intent = new Intent(this, GameOver.class);
+        intent.putExtra("etiquetanombreusuario", nombreusuario);
         startActivity(intent);
 
     }
@@ -448,28 +514,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
         dialog.show();
 
-        if(haganado== true){
-            iniciarTodo();
-            ProgressBarTimer.setProgress(0);
-            ProgressBarTimer.setSecondaryProgress(5);
-            CountDownTimer cuentaAtras = new CountDownTimer(20000,1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    System.out.println("seconds remaining: " + millisUntilFinished / 1000);
-                    int progresoactual = ProgressBarTimer.getProgress() + 5;
-                    ProgressBarTimer.setProgress(progresoactual);
-                    if (progresoactual >= ProgressBarTimer.getMax()){
-                        progresoactual = 0;
-                    }
-                }
 
-                @Override
-                public void onFinish() {
-                    System.out.println("FIN");
-                    sinTiempo();
-                }
-            }.start();
-        }
 
     }
 
@@ -495,24 +540,62 @@ public class PartidaActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode){
-            case codigoseleccion:
-                Uri miPath = data.getData();
-                imgFoto.setImageURI(miPath);
-                break;
-            case codigofoto:
-                MediaScannerConnection.scanFile(getApplicationContext(), new String[] {path}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                    @Override
-                    public void onScanCompleted(String path, Uri uri){
-                        Log.i("Path", ""+path);
+        if(resultCode== RESULT_OK) {
+            switch (requestCode) {
+                case codigoseleccion:
+                    // Uri miPath = data.getData();
+                    //  imgFoto.setImageURI(miPath);
+                    Uri imageUri = data.getData();
+                    try {
+                        imagenoriginal = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-            });
-                bitmapimagen = BitmapFactory.decodeFile(path);
-                imgFoto.setImageBitmap(bitmapimagen);
-                break;
+
+                    break;
+                case codigofoto:
+                    MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("Path", "" + path);
+                                }
+                            });
+                    bitmapimagen = BitmapFactory.decodeFile(path);
+                    imagenoriginal = bitmapimagen;
+                //    imgFoto.setImageBitmap(bitmapimagen);
+                    break;
+            }
+
+            // una vez que se elije la foto, por camara o por galreia, se comienza todos, no antes
+            if (requestCode == codigofoto || requestCode == codigoseleccion) {
+                if (haganado == true) {
+                    iniciarTodo();
+                    progressBarTimer.setProgress(0);
+                    progressBarTimer.setSecondaryProgress(5);
+                     cuentaAtras = new CountDownTimer(50000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            System.out.println("seconds remaining: " + millisUntilFinished / 1000);
+                            int progresoactual = progressBarTimer.getProgress() + 2;
+                            progressBarTimer.setProgress(progresoactual);
+                            if (progresoactual >= progressBarTimer.getMax()) {
+                                progresoactual = 0;
+                            }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            if(! haganado) {
+                                System.out.println("FIN");
+                                sinTiempo();
+                            }
+                        }
+                    }.start();
+                }
+            }
         }
+
     }
 
     private void sinTiempo() {
@@ -526,6 +609,7 @@ public class PartidaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.cancel();
+                finish();
             }
         });dialog.show();
     }
@@ -536,4 +620,88 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
 
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    class HiloReloj extends AsyncTask<String, Integer, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            contadorSegundos = 0;
+
+        }
+
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            int i = 0;
+            while(haganado==false){
+
+                publishProgress();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                contadorSegundos++;
+
+            }
+
+            return null;
+        }
+
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            tvReloj.setText(contadorSegundos+"");
+        }
+
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+        }
+
+        @Override
+        protected void onCancelled() {
+
+        }
+    }
+
+
+
+    public void onMeterCita() {
+        Calendar fechacitainicio = Calendar.getInstance();
+        Calendar fechacitafin = Calendar.getInstance();
+        //int mes = 4;
+        //int  anio = 2021;
+        //int dia = 27;
+        //fechacitainicio.set(anio,mes,dia);
+        //fechacitainicio.set(anio,mes,dia, 12, 30);
+        //fechacitafin.set(anio,mes,dia, 13, 45);
+
+        if (Build.VERSION.SDK_INT >= 14) {
+            Intent intent0 = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, fechacitainicio.getTimeInMillis())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, fechacitafin.getTimeInMillis())
+                    .putExtra(CalendarContract.Events.TITLE, "NUEVO RECORD PUZZLE")
+                    .putExtra(CalendarContract.Events.ALL_DAY, false)
+                    .putExtra(CalendarContract.Events.DESCRIPTION, "Hoy hice un nuevo record !!!")
+                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                    .putExtra(Intent.EXTRA_EMAIL, "prueba@gmail.com");
+            startActivity(intent0);
+        }
+
+        else {
+            Calendar cal = Calendar.getInstance();
+            Intent intent = new Intent(Intent.ACTION_EDIT);
+            intent.setType("vnd.android.cursor.item/event");
+            intent.putExtra("beginTime", cal.getTimeInMillis());
+            intent.putExtra("allDay", true);
+            intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+            intent.putExtra("title", "Hoy hice un nuevo record !!!");
+            startActivity(intent);
+        }
+    }
 }

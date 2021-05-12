@@ -23,20 +23,23 @@ public class GameOver extends AppCompatActivity {
     TextView GameOver;
     Button button2;
     Button btVolverAJugar;
-    Button btPuntacion;
-    Button btRanking;
+
+
+    String nombreusuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
 
+        nombreusuario = getIntent().getStringExtra("etiquetanombreusuario");
+
         imageView3 = (ImageView) findViewById(R.id.imageView3);
         GameOver = (TextView) findViewById(R.id.GameOver);
         button2 = (Button) findViewById(R.id.button2);
         btVolverAJugar = (Button) findViewById(R.id.btVolverAJugar);
-        btPuntacion  = (Button) findViewById(R.id.btPuntacion);
-        btRanking  = (Button) findViewById(R.id.btRanking);
+
+
         imageView3=(ImageView)findViewById(R.id.imageView3);
 
         YoYo.with(Techniques.StandUp).duration(3000).repeat(Animation.INFINITE).playOn(GameOver);
@@ -47,7 +50,8 @@ public class GameOver extends AppCompatActivity {
             public void onClick(View v)
             {
                 Toast.makeText(GameOver.this, "Has seleccionado volver a jugar", Toast.LENGTH_SHORT).show();
-                Intent InicioIntent = new Intent( GameOver.this, PartidaActivity.class);
+                Intent InicioIntent = new Intent( GameOver.this, InicioActivity.class);
+                InicioIntent.putExtra("etiquetanombreusuario", nombreusuario);
                 startActivity(InicioIntent);
             }
 
@@ -63,8 +67,6 @@ public class GameOver extends AppCompatActivity {
             }
 
         });
-
-
 
     }
 

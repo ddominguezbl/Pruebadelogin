@@ -1,18 +1,23 @@
 package com.daviddo.pruebadelogin;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
+
+import java.util.HashMap;
 
 public class InicioActivity extends AppCompatActivity {
 
@@ -23,7 +28,7 @@ public class InicioActivity extends AppCompatActivity {
     Chip chipModoDifícil;
     int numfilas;
     int numcolumnas;
-
+    String nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,7 @@ public class InicioActivity extends AppCompatActivity {
 
         Intent elintentquellegoaqui = getIntent();
 
-        String nombre = elintentquellegoaqui.getStringExtra("etiquetanombreusuario");
+         nombre = elintentquellegoaqui.getStringExtra("etiquetanombreusuario");
         tvNombreUsuario.setText("Bienvenido, " + nombre);
 
 
@@ -124,8 +129,10 @@ public class InicioActivity extends AppCompatActivity {
             Bundle datos = new Bundle();
             datos.putInt("numfilas", numfilas);
             datos.putInt("numcolumnas", numcolumnas);
+
             Toast.makeText(getApplicationContext(), "Pulsado jugar", Toast.LENGTH_SHORT).show();
             Intent intentJugar = new Intent(this, PartidaActivity.class);
+            intentJugar.putExtra("etiquetanombreusuario", nombre);
             intentJugar.putExtras(datos);
             startActivity(intentJugar);
         }
@@ -134,8 +141,42 @@ public class InicioActivity extends AppCompatActivity {
 
 
     public void btRankingPulsado(View v){
-        Toast.makeText(getApplicationContext(), "Pulsado ranking", Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(), "Pulsado ranking ", Toast.LENGTH_SHORT).show();
+
+        HashMap<Integer, RondaRecord> listarecords;
+        GestorSQLite  migestor = new GestorSQLite(this, "RUSH_bbdd", null, 3);
+        listarecords = migestor.leerTodosLosRecords();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setTitle("RECORDS POR RONDA");
+
+
+
+        String[] trozos = new String[listarecords.size()];
+        int i = 0;
+        for (  RondaRecord rr : listarecords.values()   ){
+           trozos[i] = "RONDA: " +rr.getRonda() + " : Nombre - " + rr.getNombre() + "; PUNTOS : " + rr.getPuntuacion();
+           i++;
+        }
+
+
+
+
+
+        builder.setItems(trozos, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+
     }
 
 
